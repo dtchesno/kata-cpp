@@ -10,5 +10,6 @@
 
 int kata();
 void qsort(int *data, int start, int end);
+void mergesort(int *data, int size);
 
 #endif /* KATA_H_ */
