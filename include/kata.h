@@ -12,4 +12,6 @@ int kata();
 void qsort(int *data, int start, int end);
 void mergesort(int *data, int size);
 
+void remove_dup_chars(char *input);
+
 #endif /* KATA_H_ */
