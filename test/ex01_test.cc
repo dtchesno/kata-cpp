@@ -5,7 +5,7 @@
  *      Author: dmitry
  */
 
-#include "kata.h"
+#include "ex01.h"
 #include "gtest/gtest.h"
 
 

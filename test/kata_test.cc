@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 
-
+/*
 TEST(QSort, 1) {
     int value = rand() % 100;
     int data[1] = { value };
@@ -83,4 +83,4 @@ TEST(MergeSort, random) {
         EXPECT_EQ(0, memcmp(data, original, sizeof(data)));
     }
 }
-
+*/
