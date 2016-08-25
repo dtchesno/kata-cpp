@@ -13,6 +13,11 @@
 template<class T> class Node {
 public:
     Node(T data) { value = data; };
+//    Node(const Node& node) {
+//        value = node.value;
+//        next = nullptr;
+//    }
+
 public:
     T value;
     Node<T> *next = nullptr;
