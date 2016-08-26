@@ -20,6 +20,7 @@ public:
             node->next = front;
             front = node;
         }
+        mSize++;
     };
 
     T pop() {
@@ -27,6 +28,7 @@ public:
         Node<T> *temp = front;
         front = front->next;
         delete temp;
+        mSize--;
         return value;
     };
 
@@ -34,20 +36,28 @@ public:
         return front->value;
     };
 
-    bool empty() { return front == nullptr; };
+    int size() { return mSize; };
+
+    //bool empty() { return front == nullptr; };
+    bool empty() { return mSize == 0; };
 
 private:
     Node<T> *front = nullptr;
+    int mSize = 0;
 };
 
 
 class HanoiStack : public Stack<int> {
 public:
+    HanoiStack(const char* name) : mName(name) {};
     void push(const int item) {
-        if (!empty() && item < top()) {
+        if (empty() || item < top()) {
             Stack<int>::push(item);
         }
     };
+    const char* name() { return mName; };
+private:
+    const char *mName;
 };
 
 
@@ -82,8 +92,19 @@ private:
     Node<T> *last = nullptr;
 };
 
+class QueueWith2Stacks {
+public:
+    void push(int value);
+    int pop();
+    bool empty();
+private:
+    void flip(Stack<int>& s1, Stack<int>& s2);
+private:
+    Stack<int> directStack;
+    Stack<int> reverseStack;
+};
 
-void run_hanoi(int size, HanoiStack& s1, HanoiStack& s2, HanoiStack& s3);
-void move_hanoi(int size, HanoiStack& s1, HanoiStack& s2, HanoiStack& s3);
+int hanoi(int num, HanoiStack& s1, HanoiStack& s2, HanoiStack& s3);
+void sort(Stack<int>& stack);
 
 #endif /* INCLUDE_EX03_H_ */
