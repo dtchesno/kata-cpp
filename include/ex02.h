@@ -8,7 +8,7 @@
 #ifndef EX02_H_
 #define EX02_H_
 
-#define nullptr 0
+#include "kata.h"
 
 template<class T> class Node {
 public:

@@ -8,6 +8,10 @@
 #ifndef KATA_H_
 #define KATA_H_
 
+#include<stdio.h>
+
+#define nullptr 0
+
 int kata();
 void qsort(int *data, int start, int end);
 void mergesort(int *data, int size);
