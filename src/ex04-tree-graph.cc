@@ -154,3 +154,97 @@ int min_depth(TreeNode *tree) {
 bool is_balanced(TreeNode *tree) {
     return max_depth(tree) - min_depth(tree) <= 1;
 }
+
+Graph::Graph(int size, bool isDirected) {
+    mNvertices = size;
+    mIsDirected = isDirected;
+
+    mEdges = new EdgeNode*[mNvertices];
+    memset(mEdges, 0, mNvertices * sizeof(EdgeNode*));
+
+    mDegree = new int[mNvertices];
+    memset(mDegree, 0, mNvertices * sizeof(int));
+
+    discovered = new bool[mNvertices];
+    processed = new bool[mNvertices];
+    parent = new int[mNvertices];
+    initSearch();
+}
+
+Graph::~Graph() {
+    for (int i = 0; i < mNvertices; i++) {
+        EdgeNode *ptr = mEdges[i];
+        while (ptr != nullptr) {
+            EdgeNode *temp = ptr;
+            ptr = ptr->next;
+            delete temp;
+        }
+    }
+    delete[] mEdges;
+    delete mDegree;
+}
+
+void Graph::addEdge(int x, int y, int weight, bool isDirected) {
+
+    // no check for dups
+
+    mEdges[x] = new EdgeNode { y, weight, mEdges[x] };
+    mDegree[x]++;
+
+    if (isDirected == false) {
+        addEdge(y, x, weight, true);
+    } else {
+        mNedges++;
+    }
+}
+
+void Graph::initSearch() {
+    memset(discovered, false, mNvertices * sizeof(bool));
+    memset(processed, false, mNvertices * sizeof(bool));
+    memset(parent, -1, mNvertices * sizeof(int));
+}
+
+void Graph::bfs(int start) {
+    std::queue<int> queue;
+
+    queue.push(start);
+    discovered[start] = true;
+
+    while (!queue.empty()) {
+
+        int x = queue.front();
+        queue.pop();
+
+        processed[x] = true;
+
+        EdgeNode *e = mEdges[x];
+        while (e != nullptr) {
+            int y = e->to_vertex;
+
+            // we can process edge if need
+            //if (processed[y] == false || mIsDirected) {
+            //}
+
+            if (!discovered[y]) {
+                discovered[y] = true;
+                queue.push(y);
+                parent[y] = x;
+            }
+
+            e = e->next;
+        }
+    }
+}
+
+void Graph::dfs(int start) {
+    discovered[start] = true;
+    EdgeNode *e = mEdges[start];
+    while (e != nullptr) {
+        if (!discovered[e->to_vertex]) {
+            parent[e->to_vertex] = start;
+            dfs(e->to_vertex);
+        }
+        e = e->next;
+    }
+    processed[start] = true;
+}

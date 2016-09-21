@@ -141,3 +141,91 @@ TEST(Ex04, is_balanced) {
 
     delete tree;
 }
+
+Graph *create_graph() {
+    int size = 6;
+    Graph *graph = new Graph(size, false);
+    graph->addEdge(0, 1, 1, false);
+    graph->addEdge(1, 3, 1, false);
+    graph->addEdge(3, 5, 1, false);
+    graph->addEdge(5, 4, 1, false);
+    graph->addEdge(4, 2, 1, false);
+    graph->addEdge(2, 0, 1, false);
+    graph->addEdge(0, 5, 1, false);
+    return graph;
+}
+
+TEST(Ex04, create_graph_empty) {
+    int size = 6;
+    Graph *graph = new Graph(size, false);
+
+    EXPECT_EQ(size, graph->mNvertices);
+    EXPECT_EQ(false, graph->mIsDirected);
+    EXPECT_EQ(0, graph->mNedges);
+    for (int i = 0; i < size; i++) {
+        EXPECT_EQ(0, graph->mDegree[i]);
+        EXPECT_EQ(nullptr, graph->mEdges[i]);
+    }
+
+    delete graph;
+}
+
+TEST(Ex04, create_graph) {
+    Graph *graph = create_graph();
+
+    EXPECT_EQ(6, graph->mNvertices);
+    EXPECT_EQ(false, graph->mIsDirected);
+    EXPECT_EQ(7, graph->mNedges);
+
+    EXPECT_EQ(3, graph->mDegree[0]);
+    EXPECT_EQ(2, graph->mDegree[1]);
+    EXPECT_EQ(2, graph->mDegree[2]);
+    EXPECT_EQ(2, graph->mDegree[3]);
+    EXPECT_EQ(2, graph->mDegree[4]);
+    EXPECT_EQ(3, graph->mDegree[5]);
+
+    delete graph;
+}
+
+TEST(Ex04, breadth_first_traversal) {
+    int size = 6;
+    Graph *graph = create_graph();
+
+    graph->initSearch();
+    graph->bfs(0);
+
+    for (int i = 0; i < size; i++) {
+        EXPECT_EQ(true, graph->discovered[i]);
+        EXPECT_EQ(true, graph->processed[i]);
+    }
+
+    EXPECT_EQ(0, graph->parent[1]);
+    EXPECT_EQ(5, graph->parent[3]);
+    EXPECT_EQ(0, graph->parent[2]);
+    EXPECT_EQ(5, graph->parent[4]);
+    EXPECT_EQ(0, graph->parent[5]);
+
+    delete graph;
+}
+
+TEST(Ex04, depth_first_traversal) {
+    int size = 6;
+    Graph *graph = create_graph();
+
+    graph->initSearch();
+    graph->dfs(0);
+
+    for (int i = 0; i < size; i++) {
+        EXPECT_EQ(true, graph->discovered[i]);
+        EXPECT_EQ(true, graph->processed[i]);
+    }
+
+    EXPECT_EQ(-1, graph->parent[0]);
+    EXPECT_EQ(3, graph->parent[1]);
+    EXPECT_EQ(4, graph->parent[2]);
+    EXPECT_EQ(5, graph->parent[3]);
+    EXPECT_EQ(5, graph->parent[4]);
+    EXPECT_EQ(0, graph->parent[5]);
+
+    delete graph;
+}

@@ -9,49 +9,9 @@
 #define INCLUDE_EX04_H_
 
 #include "kata.h"
-#include<vector>
+#include <vector>
+#include <memory.h>
 
-//template<class T>
-//class TreeNode {
-//
-//public:
-//    TreeNode<T>(const T& avalue) : value(avalue) {}
-//
-//    ~TreeNode<T>() {
-//        if (left != nullptr) {
-//            delete left;
-//        }
-//        if (right != nullptr) {
-//            delete right;
-//        }
-//    }
-//
-//    void insert(const T& value) {
-//        TreeNode<T> *ptr = this;
-//        insertRecursive(value, &ptr, nullptr);
-//    }
-//
-//private:
-//    void insertRecursive(int value, TreeNode<T> **link, TreeNode<T> *parent) {
-//        if (*link == nullptr) {
-//            *link = new TreeNode<T>(value);
-//            (*link)->parent = parent;
-//            return;
-//        }
-//
-//        if (value < (*link)->value) {
-//            insertRecursive(value, &((*link)->left), *link);
-//        } else {
-//            insertRecursive(value, &((*link)->right), *link);
-//        }
-//    }
-//
-//public:
-//    T value;
-//    TreeNode<T> *parent = nullptr;
-//    TreeNode<T> *left = nullptr;
-//    TreeNode<T> *right = nullptr;
-//};
 
 class TreeNode {
 public:
@@ -91,5 +51,39 @@ void breadth_first_search(TreeNode *tree, std::vector<int>& result);
 int max_depth(TreeNode *tree);
 int min_depth(TreeNode *tree);
 bool is_balanced(TreeNode *tree);
+
+
+// Graph definitions
+
+struct EdgeNode {
+    int to_vertex;
+    int weight;
+    EdgeNode *next;
+};
+
+class Graph {
+public:
+    Graph(int size, bool isDirected);
+    ~Graph();
+    void addEdge(int x, int y, int weight, bool isDirected);
+
+    void initSearch();
+    void bfs(int start);
+    void dfs(int start);
+
+public:
+    bool mIsDirected;
+    int mNvertices; // number of vertices
+    int mNedges = 0; // number of edges
+
+    // lists/arrays holding properties for every vertex, size is nvertices
+    EdgeNode **mEdges;
+    int *mDegree;
+
+    // graph traversal
+    bool *discovered;
+    bool *processed;
+    int *parent;
+};
 
 #endif /* INCLUDE_EX04_H_ */
