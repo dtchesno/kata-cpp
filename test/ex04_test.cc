@@ -229,3 +229,27 @@ TEST(Ex04, depth_first_traversal) {
 
     delete graph;
 }
+
+TEST(Ex04, directed_graph_has_route) {
+    int size = 5;
+    Graph *graph = new Graph(size, true);
+    graph->addEdge(0, 1, 1, true);
+    graph->addEdge(1, 3, 1, true);
+    graph->addEdge(0, 2, 1, true);
+    graph->addEdge(2, 3, 1, true);
+
+    EXPECT_EQ(true, graph->hasRoute(0, 1));
+    EXPECT_EQ(true, graph->hasRoute(0, 2));
+    EXPECT_EQ(true, graph->hasRoute(0, 3));
+    EXPECT_EQ(false, graph->hasRoute(1, 0));
+    EXPECT_EQ(false, graph->hasRoute(2, 0));
+    EXPECT_EQ(false, graph->hasRoute(3, 0));
+
+    EXPECT_EQ(true, graph->hasRoute(1, 3));
+    EXPECT_EQ(false, graph->hasRoute(3, 1));
+
+    EXPECT_EQ(true, graph->hasRoute(2, 3));
+    EXPECT_EQ(false, graph->hasRoute(3, 2));
+
+    delete graph;
+}

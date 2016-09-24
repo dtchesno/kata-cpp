@@ -204,7 +204,7 @@ void Graph::initSearch() {
     memset(parent, -1, mNvertices * sizeof(int));
 }
 
-void Graph::bfs(int start) {
+bool Graph::bfs(int start, int end) {
     std::queue<int> queue;
 
     queue.push(start);
@@ -231,9 +231,16 @@ void Graph::bfs(int start) {
                 parent[y] = x;
             }
 
+            // if we just looking for route
+            if (y == end) {
+                return true;
+            }
+
             e = e->next;
         }
     }
+
+    return false;
 }
 
 void Graph::dfs(int start) {
@@ -247,4 +254,9 @@ void Graph::dfs(int start) {
         e = e->next;
     }
     processed[start] = true;
+}
+
+bool Graph::hasRoute(int x, int y) {
+    initSearch();
+    return bfs(x, y);
 }

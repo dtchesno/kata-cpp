@@ -68,8 +68,10 @@ public:
     void addEdge(int x, int y, int weight, bool isDirected);
 
     void initSearch();
-    void bfs(int start);
+    bool bfs(int start, int end = -1);
     void dfs(int start);
+
+    bool hasRoute(int x, int y);
 
 public:
     bool mIsDirected;
